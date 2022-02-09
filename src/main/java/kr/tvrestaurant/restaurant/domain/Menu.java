@@ -1,4 +1,4 @@
-package kr.tvrestaurant.domain;
+package kr.tvrestaurant.restaurant.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,23 +7,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-public class RestaurantCategory {
+@Builder
+@AllArgsConstructor
+public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurants;
+    private String name;
+
+    private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "restaurant_id")
+    Restaurant restaurant;
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }
