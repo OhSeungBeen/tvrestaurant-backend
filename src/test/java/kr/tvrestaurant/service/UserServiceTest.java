@@ -2,9 +2,9 @@ package kr.tvrestaurant.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import kr.tvrestaurant.user.User;
-import kr.tvrestaurant.user.UserRepository;
-import kr.tvrestaurant.user.UserService;
+import kr.tvrestaurant.user.domain.User;
+import kr.tvrestaurant.user.domain.UserRepository;
+import kr.tvrestaurant.user.application.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,8 +1,8 @@
-package kr.tvrestaurant.user;
+package kr.tvrestaurant.user.application;
 
 import java.util.List;
-import kr.tvrestaurant.user.User;
-import kr.tvrestaurant.user.UserRepository;
+import kr.tvrestaurant.user.domain.User;
+import kr.tvrestaurant.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,6 +1,5 @@
-package kr.tvrestaurant.restaurant;
+package kr.tvrestaurant.restaurant.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

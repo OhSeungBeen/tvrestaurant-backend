@@ -1,4 +1,4 @@
-package kr.tvrestaurant.review;
+package kr.tvrestaurant.review.domain;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import kr.tvrestaurant.restaurant.domain.Restaurant;
-import kr.tvrestaurant.user.User;
+import kr.tvrestaurant.user.domain.User;
 import lombok.Getter;
 
 @Entity

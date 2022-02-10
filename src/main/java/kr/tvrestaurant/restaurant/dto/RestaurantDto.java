@@ -1,10 +1,14 @@
 package kr.tvrestaurant.restaurant.dto;
 
-import kr.tvrestaurant.restaurant.RestaurantCategory;
+import java.util.ArrayList;
+import kr.tvrestaurant.restaurant.domain.Category;
+import kr.tvrestaurant.restaurant.domain.RestaurantCategory;
 import kr.tvrestaurant.restaurant.domain.Menu;
 import kr.tvrestaurant.restaurant.domain.Type;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 public class RestaurantDto {
     @Getter
@@ -19,10 +23,18 @@ public class RestaurantDto {
             this.name = restaurantCategory.getCategory().getName();
         }
 
+        public Category toEntity() {
+            Category category = Category.builder()
+                .name(name)
+                .restaurantCategories(new ArrayList<>())
+                .build();
+            return category;
+        }
     }
 
     @Getter
     @NoArgsConstructor
+    @ToString
     public static class MenuDto {
 
         private Long id;

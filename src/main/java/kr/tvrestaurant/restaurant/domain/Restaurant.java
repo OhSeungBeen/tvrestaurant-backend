@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import kr.tvrestaurant.restaurant.RestaurantCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +43,21 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<RestaurantCategory> restaurantCategories = new ArrayList<>();
+
+    public void setMenus(List<Menu> menus) {
+        menus.forEach(menu -> menu.setRestaurant(this));
+        this.menus = menus;
+    }
+
+    public void setTypes(List<Type> types) {
+        types.forEach(type -> type.setRestaurant(this));
+        this.types = types;
+    }
+
+    public void setRestaurantCategories(List<RestaurantCategory> restaurantCategories) {
+        restaurantCategories.forEach(restaurantCategory -> restaurantCategory.setRestaurant(this));
+        this.restaurantCategories = restaurantCategories;
+    }
 
     public void addMenu(Menu menu) {
         this.menus.add(menu);
