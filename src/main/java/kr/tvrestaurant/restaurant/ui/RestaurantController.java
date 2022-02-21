@@ -4,8 +4,10 @@ import javax.validation.Valid;
 import kr.tvrestaurant.restaurant.application.RestaurantService;
 import kr.tvrestaurant.restaurant.dto.RestaurantRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RequiredArgsConstructor
@@ -37,7 +42,18 @@ public class RestaurantController {
 
     // 레스토랑 전체 조회
     @GetMapping("/api/v1/restaurants")
-    public ResponseEntity<?> getRestaurantList() {
+    public ResponseEntity<?> getRestaurantList(
+        @RequestParam(required = false) Double southWestLatitude, @RequestParam(required = false) Double southWestLongitude,
+        @RequestParam(required = false) Double eastNorthLatitude, @RequestParam(required = false) Double eastNorthLongitude) {
+
+        if(southWestLatitude != null &&
+            southWestLongitude != null &&
+            eastNorthLatitude != null &&
+            eastNorthLongitude != null) {
+            restaurantService.getRestaurantListByLocation(new Point(southWestLatitude, southWestLongitude),
+                new Point(eastNorthLatitude, eastNorthLongitude));
+        }
+
         return ResponseEntity.ok().body(restaurantService.getRestaurantList());
     }
 

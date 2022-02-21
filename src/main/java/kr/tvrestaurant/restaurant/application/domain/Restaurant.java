@@ -1,8 +1,9 @@
-package kr.tvrestaurant.restaurant.domain;
+package kr.tvrestaurant.restaurant.application.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.geo.Point;
+import org.aspectj.weaver.loadtime.definition.Definition;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
@@ -33,6 +35,7 @@ public class Restaurant {
 
     private String tel;
 
+    @Column(columnDefinition = "POINT")
     private Point location;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)

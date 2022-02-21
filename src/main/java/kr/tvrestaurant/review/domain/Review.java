@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import kr.tvrestaurant.restaurant.domain.Restaurant;
+import kr.tvrestaurant.restaurant.application.domain.Restaurant;
 import kr.tvrestaurant.user.domain.User;
 import lombok.Getter;
 

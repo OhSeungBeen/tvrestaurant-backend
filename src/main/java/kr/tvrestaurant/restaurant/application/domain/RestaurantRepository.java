@@ -1,6 +1,6 @@
-package kr.tvrestaurant.restaurant.domain;
+package kr.tvrestaurant.restaurant.application.domain;
 
-import kr.tvrestaurant.restaurant.domain.Restaurant;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

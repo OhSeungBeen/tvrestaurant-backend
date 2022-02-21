@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import kr.tvrestaurant.restaurant.domain.Category;
-import kr.tvrestaurant.restaurant.domain.Menu;
-import kr.tvrestaurant.restaurant.domain.Restaurant;
-import kr.tvrestaurant.restaurant.domain.RestaurantCategory;
-import kr.tvrestaurant.restaurant.domain.Type;
+import kr.tvrestaurant.restaurant.application.domain.Category;
+import kr.tvrestaurant.restaurant.application.domain.Menu;
+import kr.tvrestaurant.restaurant.application.domain.Restaurant;
+import kr.tvrestaurant.restaurant.application.domain.RestaurantCategory;
+import kr.tvrestaurant.restaurant.application.domain.Type;
 import kr.tvrestaurant.restaurant.dto.RestaurantDto.CategoryDto;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.data.geo.Point;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 
 @Getter
 @ToString
@@ -28,8 +29,11 @@ public class RestaurantRequestDto {
     @NotBlank(message = "전화번호를 작성하세요.")
     private String tel;
 
-    @NotNull(message = "위치를 작성하세요.")
-    private Point location;
+    @NotNull(message = "위치(위도)를 작성하세요.")
+    private double latitude;
+
+    @NotNull(message = "위치(경도)를 작성하세요.")
+    private double longitude;
 
     private List<RestaurantDto.MenuDto> menus;
 
@@ -41,21 +45,28 @@ public class RestaurantRequestDto {
 
     public Restaurant toEntity() {
 
+        GeometryFactory geometryFactory = new GeometryFactory();
+
         Restaurant restaurant = Restaurant.builder()
             .name(name)
             .address(address)
             .tel(tel)
-            .location(location)
+            .location(geometryFactory.createPoint(new Coordinate(latitude, longitude)))
             .menus(new ArrayList<>())
             .types(new ArrayList<>())
             .restaurantCategories(new ArrayList<>())
             .build();
 
-        List<Type> typesEntity = types.stream().map(typeDto -> typeDto.toEntity()).collect(Collectors.toList());
-        List<Menu> menusEntity = menus.stream().map(menuDto -> menuDto.toEntity()).collect(Collectors.toList());
+        System.out.println(restaurant.getLocation().getX());
+        System.out.println(restaurant.getLocation().getY());
 
-        List <RestaurantCategory> restaurantCategoriesEntity = new ArrayList<>();
-        for(CategoryDto categoryDto : categories) {
+        List<Type> typesEntity = types.stream().map(typeDto -> typeDto.toEntity())
+            .collect(Collectors.toList());
+        List<Menu> menusEntity = menus.stream().map(menuDto -> menuDto.toEntity())
+            .collect(Collectors.toList());
+
+        List<RestaurantCategory> restaurantCategoriesEntity = new ArrayList<>();
+        for (CategoryDto categoryDto : categories) {
             RestaurantCategory restaurantCategory = new RestaurantCategory();
             Category category = categoryDto.toEntity();
             category.addRestaurantCategory(restaurantCategory);

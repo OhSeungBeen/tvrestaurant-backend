@@ -1,14 +1,17 @@
 package kr.tvrestaurant.restaurant.application;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import kr.tvrestaurant.restaurant.domain.Category;
-import kr.tvrestaurant.restaurant.domain.Menu;
-import kr.tvrestaurant.restaurant.domain.Restaurant;
-import kr.tvrestaurant.restaurant.domain.RestaurantCategory;
-import kr.tvrestaurant.restaurant.domain.RestaurantRepository;
-import kr.tvrestaurant.restaurant.domain.Type;
+import kr.tvrestaurant.restaurant.application.domain.Menu;
+import kr.tvrestaurant.restaurant.application.domain.Restaurant;
+import kr.tvrestaurant.restaurant.application.domain.RestaurantCategory;
+import kr.tvrestaurant.restaurant.application.domain.RestaurantRepository;
+import kr.tvrestaurant.restaurant.application.domain.Type;
 import kr.tvrestaurant.restaurant.dto.RestaurantDto.CategoryDto;
 import kr.tvrestaurant.restaurant.dto.RestaurantDto.MenuDto;
 import kr.tvrestaurant.restaurant.dto.RestaurantDto.TypeDto;
@@ -16,8 +19,10 @@ import kr.tvrestaurant.restaurant.dto.RestaurantRequestDto;
 import kr.tvrestaurant.restaurant.dto.RestaurantResponseDto;
 import kr.tvrestaurant.restaurant.exception.NoExistRestaurantException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,6 +44,10 @@ public class RestaurantService {
             .collect(Collectors.toList());
     }
 
+    public void getRestaurantListByLocation(Point southWest, Point eastNorth) {
+
+    }
+
     public RestaurantResponseDto getRestaurantDetails(Long id) {
         Restaurant restaurant = existRestaurant(restaurantRepository.findById(id));
 
@@ -50,19 +59,19 @@ public class RestaurantService {
         Restaurant restaurant = existRestaurant(restaurantRepository.findById(id));
         restaurant.setName(restaurantRequestDto.getName());
         restaurant.setAddress(restaurantRequestDto.getAddress());
-        restaurant.setLocation(restaurantRequestDto.getLocation());
+//        restaurant.setLocation(restaurantRequestDto.getLocation());
         restaurant.setTel(restaurantRequestDto.getTel());
 
         for(MenuDto menuDto: restaurantRequestDto.getMenus()) {
             Menu findMenu = restaurant.getMenus().stream()
-                .filter(menu -> menu.getId() == menuDto.getId()).findFirst().get();
+                .filter(menu -> menu.getId().equals(menuDto.getId())).findFirst().get();
             findMenu.setName(menuDto.getName());
             findMenu.setPrice(menuDto.getPrice());
         }
 
         for(TypeDto typeDto: restaurantRequestDto.getTypes()) {
             Type findType = restaurant.getTypes().stream()
-                .filter(type -> type.getId() == typeDto.getId()).findFirst().get();
+                .filter(type -> type.getId().equals(typeDto.getId())).findFirst().get();
             findType.setName(typeDto.getName());
             findType.setEpisode(typeDto.getEpisode());
         }
@@ -70,8 +79,7 @@ public class RestaurantService {
         for(CategoryDto categoryDto: restaurantRequestDto.getCategories()) {
             RestaurantCategory findRestaurantCategory = restaurant.getRestaurantCategories()
                 .stream().filter(restaurantCategory ->
-                    restaurantCategory.getCategory().getId() == categoryDto.getId()).findFirst()
-                .get();
+                    restaurantCategory.getCategory().getId().equals(categoryDto.getId())).findFirst().get();
             findRestaurantCategory.getCategory().setName(categoryDto.getName());
         }
 
@@ -86,9 +94,12 @@ public class RestaurantService {
         return new RestaurantResponseDto(restaurant);
     }
 
-    private Restaurant existRestaurant(Optional<Restaurant> restaurantOpt) {
+    private Restaurant existRestaurant(Optional<Restaurant> restaurantOpt) throws NoExistRestaurantException{
         restaurantOpt.orElseThrow(() -> new NoExistRestaurantException("존재하지 않는 식당입니다."));
 
         return restaurantOpt.get();
     }
+
+
+
 }

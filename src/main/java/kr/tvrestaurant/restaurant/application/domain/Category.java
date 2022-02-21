@@ -1,4 +1,4 @@
-package kr.tvrestaurant.restaurant.domain;
+package kr.tvrestaurant.restaurant.application.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +30,6 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<RestaurantCategory> restaurantCategories = new ArrayList<>();
-
-    public void setRestaurantCategories(List<RestaurantCategory> restaurantCategories) {
-        restaurantCategories.forEach(restaurantCategory -> restaurantCategory.setCategory(this));
-        this.restaurantCategories = restaurantCategories;
-    }
 
     public void addRestaurantCategory(RestaurantCategory restaurantCategory) {
         this.restaurantCategories.add(restaurantCategory);

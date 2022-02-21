@@ -2,12 +2,11 @@ package kr.tvrestaurant.restaurant.dto;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kr.tvrestaurant.restaurant.domain.Restaurant;
+import kr.tvrestaurant.restaurant.application.domain.Restaurant;
 import kr.tvrestaurant.restaurant.dto.RestaurantDto.CategoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.geo.Point;
 
 @Getter
 @AllArgsConstructor
@@ -18,7 +17,8 @@ public class RestaurantResponseDto {
     private String name;
     private String address;
     private String tel;
-    private Point location;
+    private double latitude;
+    private double longitude;
     private List<RestaurantDto.MenuDto> menus;
     private List<RestaurantDto.TypeDto> types;
     private List<CategoryDto> categories;
@@ -29,7 +29,8 @@ public class RestaurantResponseDto {
         this.name = restaurant.getName();
         this.address = restaurant.getAddress();
         this.tel = restaurant.getTel();
-        this.location = restaurant.getLocation();
+        this.latitude = restaurant.getLocation().getCoordinate().getX();
+        this.longitude = restaurant.getLocation().getCoordinate().getY();
         this.menus = restaurant.getMenus()
             .stream().map(menu -> new RestaurantDto.MenuDto(menu))
             .collect(Collectors.toList());

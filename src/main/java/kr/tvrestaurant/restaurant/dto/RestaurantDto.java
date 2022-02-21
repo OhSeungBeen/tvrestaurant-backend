@@ -1,13 +1,12 @@
 package kr.tvrestaurant.restaurant.dto;
 
 import java.util.ArrayList;
-import kr.tvrestaurant.restaurant.domain.Category;
-import kr.tvrestaurant.restaurant.domain.RestaurantCategory;
-import kr.tvrestaurant.restaurant.domain.Menu;
-import kr.tvrestaurant.restaurant.domain.Type;
+import kr.tvrestaurant.restaurant.application.domain.Category;
+import kr.tvrestaurant.restaurant.application.domain.RestaurantCategory;
+import kr.tvrestaurant.restaurant.application.domain.Menu;
+import kr.tvrestaurant.restaurant.application.domain.Type;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 public class RestaurantDto {

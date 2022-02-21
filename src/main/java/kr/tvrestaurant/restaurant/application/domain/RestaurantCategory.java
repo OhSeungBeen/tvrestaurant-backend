@@ -1,4 +1,4 @@
-package kr.tvrestaurant.restaurant.domain;
+package kr.tvrestaurant.restaurant.application.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import kr.tvrestaurant.restaurant.domain.Category;
-import kr.tvrestaurant.restaurant.domain.Restaurant;
 import lombok.Getter;
 import lombok.ToString;
 
